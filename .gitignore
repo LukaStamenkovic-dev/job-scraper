@@ -10,3 +10,6 @@ __pycache__/
 
 # VS Code
 .vscode/
+
+# Search_page za url
+search_page.html
