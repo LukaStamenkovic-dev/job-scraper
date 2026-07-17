@@ -7,30 +7,11 @@ def main():
     jobs = api.get_jobs()
 
     print(f"Number of jobs: {len(jobs)}")
-    print(jobs[0])
+    print(jobs[0].job_title)
+    print(jobs[0].company)
+    print(jobs[0].salary_min)
+    print(jobs[0].technologies)
 
 
 if __name__ == "__main__":
     main()
-
-
-
-# from scraper.client import HttpClient
-
-
-# def main():
-#     client = HttpClient()
-
-#     search_url = input("Enter search URL: ").strip()
-
-#     html = client.get(search_url)
-
-#     with open("search_page.html", "w", encoding="utf-8") as file:
-#         file.write(html)
-
-#     print("HTML successfully saved to search_page.html")
-
-
-# if __name__ == "__main__":
-#     main()
-
