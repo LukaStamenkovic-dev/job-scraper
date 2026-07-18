@@ -1,3 +1,5 @@
+USE job_scraper;
+
 CREATE TABLE companies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -8,7 +10,9 @@ CREATE TABLE companies (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE jobs (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,9 +38,10 @@ CREATE TABLE jobs (
     language VARCHAR(100),
     visa_sponsorship BOOLEAN,
 
-    job_url VARCHAR(1000) NOT NULL,
-    source_site VARCHAR(100) NOT NULL,
-    external_job_id VARCHAR(255),
+    job_url TEXT NOT NULL,
+    job_url_hash CHAR(64) NOT NULL,
+    source_site VARCHAR(50) NOT NULL,
+    external_job_id VARCHAR(191),
     is_external BOOLEAN NOT NULL DEFAULT FALSE,
 
     scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -47,17 +52,21 @@ CREATE TABLE jobs (
         FOREIGN KEY (company_id)
         REFERENCES companies(id),
 
-    CONSTRAINT uq_jobs_job_url
-        UNIQUE (job_url),
+    CONSTRAINT uq_jobs_job_url_hash
+        UNIQUE (job_url_hash),
 
     CONSTRAINT uq_jobs_source_external_id
         UNIQUE (source_site, external_job_id)
-);
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE technologies (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
-);
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE job_technologies (
     job_id INT NOT NULL,
@@ -74,4 +83,6 @@ CREATE TABLE job_technologies (
         FOREIGN KEY (technology_id)
         REFERENCES technologies(id)
         ON DELETE CASCADE
-);
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;

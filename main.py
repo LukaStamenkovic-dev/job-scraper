@@ -1,16 +1,21 @@
-from scraper.api import JobsApi
+from models.company import Company
+from services.company_service import CompanyService
 
 
 def main():
-    api = JobsApi()
+    service = CompanyService()
 
-    jobs = api.get_jobs()
+    company = Company(
+        name="Microsoft",
+        website_url="https://microsoft.com",
+        company_size="10000+",
+        company_type="Product",
+    )
 
-    print(f"Number of jobs: {len(jobs)}")
-    print(jobs[0].job_title)
-    print(jobs[0].company)
-    print(jobs[0].salary_min)
-    print(jobs[0].technologies)
+    saved_company = service.get_or_create(company)
+
+    print(f"ID: {saved_company.id}")
+    print(f"Name: {saved_company.name}")
 
 
 if __name__ == "__main__":
