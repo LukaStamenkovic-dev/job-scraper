@@ -2,20 +2,25 @@ USE job_scraper;
 
 CREATE TABLE companies (
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     name VARCHAR(255) NOT NULL UNIQUE,
     website_url VARCHAR(500),
     logo_url VARCHAR(500),
     company_size VARCHAR(100),
     company_type VARCHAR(100),
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP
+
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
 
+
 CREATE TABLE jobs (
     id INT AUTO_INCREMENT PRIMARY KEY,
+
     company_id INT NOT NULL,
 
     job_title VARCHAR(255) NOT NULL,
@@ -28,8 +33,8 @@ CREATE TABLE jobs (
     country VARCHAR(100),
 
     salary_raw VARCHAR(255),
-    salary_min DECIMAL(12, 2),
-    salary_max DECIMAL(12, 2),
+    salary_min DECIMAL(12,2),
+    salary_max DECIMAL(12,2),
     salary_currency CHAR(3) DEFAULT 'EUR',
     salary_period VARCHAR(50),
 
@@ -38,8 +43,7 @@ CREATE TABLE jobs (
     language VARCHAR(100),
     visa_sponsorship BOOLEAN,
 
-    job_url TEXT NOT NULL,
-    job_url_hash CHAR(64) NOT NULL,
+    job_url VARCHAR(1000) NOT NULL,
     source_site VARCHAR(50) NOT NULL,
     external_job_id VARCHAR(191),
     is_external BOOLEAN NOT NULL DEFAULT FALSE,
@@ -52,21 +56,26 @@ CREATE TABLE jobs (
         FOREIGN KEY (company_id)
         REFERENCES companies(id),
 
-    CONSTRAINT uq_jobs_job_url_hash
-        UNIQUE (job_url_hash),
+    CONSTRAINT uq_jobs_job_url
+        UNIQUE (job_url),
 
     CONSTRAINT uq_jobs_source_external_id
         UNIQUE (source_site, external_job_id)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE technologies (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE technologies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    name VARCHAR(100) NOT NULL UNIQUE
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
 
 CREATE TABLE job_technologies (
     job_id INT NOT NULL,
@@ -83,6 +92,7 @@ CREATE TABLE job_technologies (
         FOREIGN KEY (technology_id)
         REFERENCES technologies(id)
         ON DELETE CASCADE
+
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_unicode_ci;

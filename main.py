@@ -1,21 +1,17 @@
-from models.company import Company
-from services.company_service import CompanyService
+from scraper.jobs_api import JobsApi
+from services.job_service import JobService
 
 
 def main():
-    service = CompanyService()
+    jobs_api = JobsApi()
+    job_service = JobService()
 
-    company = Company(
-        name="Microsoft",
-        website_url="https://microsoft.com",
-        company_size="10000+",
-        company_type="Product",
-    )
+    jobs = jobs_api.get_jobs()
 
-    saved_company = service.get_or_create(company)
+    for job in jobs:
+        job_service.save_job(job)
 
-    print(f"ID: {saved_company.id}")
-    print(f"Name: {saved_company.name}")
+    print(f"Imported {len(jobs)} jobs")
 
 
 if __name__ == "__main__":

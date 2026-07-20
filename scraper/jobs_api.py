@@ -13,9 +13,13 @@ class JobsApi:
     def get_jobs(self):
         jobs_json = self.client.get(f"{self.BASE_URL}/jobsLight")
 
+        print(jobs_json[0])   # Privremeno
+
         jobs = []
 
         for job_json in jobs_json:
             jobs.append(self.mapper.from_json(job_json))
 
         return jobs
+    
+
