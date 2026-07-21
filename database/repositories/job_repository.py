@@ -1,5 +1,4 @@
 from database.connection import get_connection
-from models.job import Job
 
 
 class JobRepository:
@@ -10,11 +9,11 @@ class JobRepository:
 
         try:
             query = """
-            SELECT 1
-            FROM jobs
-            WHERE job_url = %s
-            LIMIT 1
-        """
+                SELECT 1
+                FROM jobs
+                WHERE job_url = %s
+                LIMIT 1
+            """
 
             cursor.execute(query, (job_url,))
             return cursor.fetchone() is not None
@@ -29,32 +28,61 @@ class JobRepository:
 
         try:
             query = """
-            INSERT INTO jobs (
-                company_id,
-                job_title,
-                city,
-                address,
-                language,
-                job_url,
-                salary_min,
-                salary_max
-            )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """
+                INSERT INTO jobs (
+                    company_id,
+                    job_title,
+                    description,
+                    location_raw,
+                    address,
+                    city,
+                    country,
+                    salary_raw,
+                    salary_min,
+                    salary_max,
+                    salary_currency,
+                    salary_period,
+                    experience_level,
+                    employment_type,
+                    language,
+                    visa_sponsorship,
+                    job_url,
+                    source_site,
+                    external_job_id,
+                    is_external
+                )
+                VALUES (
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s
+                )
+            """
 
             cursor.execute(
                 query,
-            (
-                company_id,
-                job.job_title,
-                job.city,
-                job.address,
-                job.language,
-                job.job_url,
-                job.salary_min,
-                job.salary_max,
+                (
+                    company_id,
+                    job.job_title,
+                    job.description,
+                    job.location_raw,
+                    job.address,
+                    job.city,
+                    job.country,
+                    job.salary_raw,
+                    job.salary_min,
+                    job.salary_max,
+                    job.salary_currency,
+                    job.salary_period,
+                    job.experience_level,
+                    job.employment_type,
+                    job.language,
+                    job.visa_sponsorship,
+                    job.job_url,
+                    job.source_site,
+                    job.external_job_id,
+                    job.is_external,
+                )
             )
-        )
 
             connection.commit()
 

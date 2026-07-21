@@ -12,6 +12,8 @@ class Job:
         salary_raw,
         salary_min,
         salary_max,
+        salary_currency,
+        salary_period,
         language,
         employment_type,
         experience_level,
@@ -21,9 +23,12 @@ class Job:
         external_job_id,
         is_external,
         technologies,
+        scraped_at=None,
+        updated_at=None,
         id=None,
     ):
         self.id = id
+
         self.job_title = job_title
         self.company = company
 
@@ -37,6 +42,8 @@ class Job:
         self.salary_raw = salary_raw
         self.salary_min = salary_min
         self.salary_max = salary_max
+        self.salary_currency = salary_currency
+        self.salary_period = salary_period
 
         self.language = language
         self.employment_type = employment_type
@@ -49,3 +56,6 @@ class Job:
         self.is_external = is_external
 
         self.technologies = technologies
+
+        self.scraped_at = scraped_at
+        self.updated_at = updated_at
