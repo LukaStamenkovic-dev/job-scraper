@@ -1,29 +1,3 @@
-# from scraper.jobs_api import JobsApi
-# from scraper.job_details_api import JobDetailsApi
-# from services.job_service import JobService
-# import json
-
-
-# def main():
-#     jobs_api = JobsApi()
-#     job_service = JobService()
-#     job_details_api = JobDetailsApi()
-
-#     jobs = jobs_api.get_jobs()
-
-#     details = job_details_api.get_job_details(jobs[0].job_url)
-
-#     print(json.dumps(details, indent=4))
-
-#     for job in jobs:
-#         job_service.save_job(job)
-
-#     print(f"Imported {len(jobs)} jobs")
-
-
-# if __name__ == "__main__":
-#     main()
-
 import time
 
 from scraper.jobs_api import JobsApi
@@ -38,7 +12,8 @@ def main():
 
     jobs = jobs_api.get_jobs()
 
-    for job in jobs:
+    for index, job in enumerate(jobs, start=1):
+        print(f"Saving {index}/{len(jobs)}")
         job_service.save_job(job)
 
     end = time.time()
